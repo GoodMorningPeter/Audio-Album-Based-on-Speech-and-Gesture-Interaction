@@ -42,10 +42,10 @@ Audio-Album
 
 ## 效果展示
 
-![front-page](img\front-page.png)
+![img\front-page.png](https://github.com/GoodMorningPeter/Audio-Album-Based-on-Speech-and-Gesture-Interaction/blob/main/img/front-page.png)
 
-![animals](img\animals.png)
+![img\animals.png](https://github.com/GoodMorningPeter/Audio-Album-Based-on-Speech-and-Gesture-Interaction/blob/main/img/animals.png)
 
-![view](img\view.png)
+![img\view.png](https://github.com/GoodMorningPeter/Audio-Album-Based-on-Speech-and-Gesture-Interaction/blob/main/img/view.png)
 
-![gistures](img\gistures.png)
+![img\gistures.png](https://github.com/GoodMorningPeter/Audio-Album-Based-on-Speech-and-Gesture-Interaction/blob/main/img/gistures.png)
