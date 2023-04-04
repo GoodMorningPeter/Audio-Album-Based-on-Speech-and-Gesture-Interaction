@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>随心控制的有声相册</title>
+    <script src="{{ url_for('static', filename='js/annyang.min.js') }}"></script>
+</head>
+<body>
+
+    <div class="Box">
+        <div class="titlebox" style="padding-top: 20px">
+            <div style="color:#1899FF;text-align: center;font-size:50px;">
+                <b>随 心 控 制 的 有 声 相 册</b>
+            </div> 
+        </div>
+    </div>
+
+    <div class="DZone">
+        <div class="Box">
+            <b><input type="button" id="a0" class="contentbox" style="padding: 20px; 
+            color:black; text-align: center; font-size:50px; border: none; cursor: pointer;" 
+            onclick="toscenery()" value="听 听 会 唱 歌 的 风 景"></b>
+        </div>
+        
+        <div class="Box">
+            <b><input type="button" id="a1" class="contentbox" style="padding: 20px; 
+            color:black; text-align: center; font-size:50px; border: none; cursor: pointer;" 
+            onclick="toanimal()" value="听 听 动 物 的 声 音"></b>
+        </div>
+
+        <div class="Box">
+            <b><input type="button" id="a2" class="contentbox" style="padding: 20px; 
+            color:black; text-align: center; font-size:50px; border: none; cursor: pointer;" 
+            onclick="toweather()" value="听 听 多 变 的 天 气"></b>
+        </div>
+    </div>
+
+</body>
+
+<script>
+
+function toscenery(){
+    window.location.href = "{{ url_for('scenery') }}";
+}
+function toanimal(){
+    window.location.href = "{{ url_for('animal') }}";
+}
+function toweather(){
+    window.location.href = "{{ url_for('weather') }}";
+}
+
+// annyang声控插件
+if (annyang) {
+        annyang.setLanguage('zh-CN');
+        const commands = {
+            '听听会唱歌的风景': () => { toscenery(); },
+            '听听动物的声音': () => { toanimal(); },
+            '听听多变的天气': () => { toweather(); }
+        };
+        annyang.addCommands(commands);
+        annyang.start();
+    }
+
+</script>
+
+
+<style>
+.titlebox{
+    margin-top: 0px;
+    margin-bottom: 100px; 
+    margin-left: 200px;
+    width: 1010px;
+    height: 100px;
+    text-align: center;
+    background: #fff;
+    box-shadow:0px 0px 8px 8px rgb(229, 229, 229);
+    border-radius:0px 0px 16px 16px;
+}
+
+.contentbox{
+    margin-top: 30px;
+    margin-bottom: 80px; 
+    margin-left: 30px;
+    width: 950px;
+    height: 150px;
+    text-align: center;
+    background: #fff;
+    box-shadow:0px 0px 8px 8px rgb(229, 229, 229);
+    border-radius: 16px;
+    filter: alpha(Opacity=100);
+    opacity: 1;
+}
+
+.contentbox:hover{
+    filter: alpha(Opacity=60);
+    opacity: 0.6;
+}
+
+.DZone {
+    margin-top: 0px;
+    margin-bottom: 0px; 
+    margin-left: 200px;
+    position: relative;
+    padding: 5px;
+    justify-content: center;
+    color: #cccccc;
+    width: 1010px;
+    height: 750px;
+    border: 4px dashed gray;
+    border-radius:16px;
+}
+
+</style>
+</html>

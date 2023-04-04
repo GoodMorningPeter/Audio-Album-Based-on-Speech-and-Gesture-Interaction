@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <title>听听会唱歌的风景</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/annyang.min.js') }}"></script>
+    <link rel="stylesheet" href="../static/css/box.css">
+</head>
+<body>
+<!--<h3>请选择图片文件：PNG/JPG/JPEG/SVG/GIF</h3>-->
+<a href="#" name="top"></a>
+<div class="Box">
+    <div class="titlebox" style="padding-top: 20px">
+        <div style="color:#1899FF;text-align: center;font-size:50px;">
+            <b>听 听 会 唱 歌 的 风 景</b>
+        </div> 
+    </div>
+</div>
+
+<div class="con">
+    <img src="{{url_for('gdetect')}}" alt="" width="100%">
+</div>
+
+<div style=" position: absolute; margin-left:850px; top: 150px;">
+    <input type="button" id="a0" onclick="guide()" value="听听引导" 
+    style="background-color: #1899FF; opacity: 0.9; border: none;
+            color:white; padding: 10%; border-radius: 10px;">
+</div>
+
+<div style=" position: absolute; margin-left:1050px; top: 150px;">
+    <input type="button" id="a0" onclick="back()" value="返回首页" 
+    style="background-color: #1899FF; opacity: 0.9; border: none;
+            color:white; padding: 10%; border-radius: 10px;">
+</div>
+
+<a href="#" name="img0"></a>
+<br>
+<div class="BoxWrap">
+    <div class="horn" style="padding: 10px">
+        <div style="text-align: left;margin-left:20px;margin-top:5px;" >
+            
+            <div class="drop-zone" style="float: left;">
+                <span class="drop-zone__prompt">
+                    <img src="../static/images/add.jpg" style="width: 35rem; height: 32rem; border-radius:32px; opacity: 0.5;">
+                </span>
+                <input type="file" name="file" class="drop-zone__input" id="file0">
+            </div>
+
+            <div style="float:left; margin-left:25px;">
+                <input type="button" id="b0" onclick="test(0)" value="听一听">
+                <pre  id="out0" style="width:320px;height:50px;line-height: 50px;margin-top:20px;"></pre>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<a href="#" name="img1"></a>
+<br>
+<div class="BoxWrap">
+    <div class="horn" style="padding: 10px">
+        <div style="text-align: left;margin-left:20px; margin-top:10px;" >
+            <div class="drop-zone" style="float: left;">
+                <span class="drop-zone__prompt">
+                    <img src="../static/images/add.jpg" style="width: 35rem; height: 32rem; border-radius:32px; opacity: 0.5;">
+                </span>
+                <input type="file" name="file" class="drop-zone__input" id="file1">
+            </div>
+            <div style="float:left;margin-left:25px;">
+                <input type="button" id="b1" onclick="test(1)" value="听一听">
+                <pre  id="out1" style="width:320px;height:50px;line-height: 50px;margin-top:20px;"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" name="img2"></a>
+<br>
+<div class="BoxWrap">
+    <div class="horn" style="padding: 10px">
+        <div style="text-align: left;margin-left:20px; margin-top:10px;" >
+            <div class="drop-zone" style="float: left;">
+                <span class="drop-zone__prompt">
+                    <img src="../static/images/add.jpg" style="width: 35rem; height: 32rem; border-radius:32px; opacity: 0.5;">
+                </span>
+                <input type="file" name="file" class="drop-zone__input" id="file2">
+            </div>
+            <div style="float:left;margin-left:25px;">
+                <input type="button" id="b2" onclick="test(2)" value="听一听">
+                <pre  id="out2" style="width:320px;height:50px;line-height: 50px;margin-top:20px;"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" name="img3"></a>
+<br>
+<div class="BoxWrap">
+    <div class="horn" style="padding: 10px">
+        <div style="text-align: left;margin-left:20px;margin-top:10px;" >
+            <div class="drop-zone" style="float: left;">
+                <span class="drop-zone__prompt">
+                    <img src="../static/images/add.jpg" style="width: 35rem; height: 32rem; border-radius:32px; opacity: 0.5;">
+                </span>
+                <input type="file" name="file" class="drop-zone__input" id="file3">
+            </div>
+            <div style="float:left;margin-left:25px;">
+                <input type="button" id="b3" onclick="test(3)" value="听一听">
+                <pre  id="out3" style="width:320px;height:50px;line-height: 50px;margin-top:20px;"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+    function test(cnt) {
+        var fileobj = $(`#file${cnt}`)[0].files[0];
+        console.log(fileobj);
+        var form = new FormData();
+        form.append("file", fileobj);
+        var out='';
+        var flower='';
+        $.ajax({
+            type: 'POST',
+            url: "predict",
+            data: form,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            console.log(arg)
+            out = arg.result;
+        },error:function(){
+                console.log("后台处理错误");
+            }
+    });
+
+        out.forEach(e=>{
+            flower+=`<div style="border-bottom: 1px solid #CCCCCC;line-height: 60px;font-size:25px;"><b>${e}</b></div>`
+        });
+
+        document.getElementById(`out${cnt}`).innerHTML=flower;
+
+    }
+
+
+    function back(){
+        window.location.href = "{{ url_for('index') }}";
+    }
+
+    function find(cnt){
+        // const im = `img${cnt}`
+        window.location.href = `#img${cnt}`;
+        console.log(`img${cnt}`);
+    }
+
+    function findtop(){
+        // const im = `img${cnt}`
+        window.location.href = "#top";
+    }
+
+    function guide(){
+        $.ajax({
+            type: 'POST',
+            url: "guide",
+            data: false,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            console.log(arg)
+            out = arg.result;
+        },error:function(){
+                console.log("后台处理错误");
+            }
+        })
+    }
+
+    function pause(){
+        $.ajax({
+            type: 'POST',
+            url: "pause",
+            data: false,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            console.log(arg)
+            out = arg.result;
+        },error:function(){
+                console.log("后台处理错误");
+            }
+        })
+    }
+
+    function cont(){
+        $.ajax({
+            type: 'POST',
+            url: "cont",
+            data: false,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            console.log(arg)
+            out = arg.result;
+        },error:function(){
+                console.log("后台处理错误");
+            }
+        })
+    }
+
+    function again(){
+        $.ajax({
+            type: 'POST',
+            url: "again",
+            data: false,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            console.log(arg)
+            out = arg.result;
+        },error:function(){
+                console.log("后台处理错误");
+            }
+        })
+    }
+
+    var cnt = 0;
+    if (annyang) {
+        console.log(cnt);
+        // annyang.setLanguage('zh-CN');
+        // Let's define a command.
+        const commands = {
+            'listen to this picture': () => { find(cnt); test(cnt); },
+            'next one': () => {
+                cnt += 1;
+                if(cnt >= 4){
+                    alert("已经是最后一个了");
+                    console.log(cnt);
+                }
+                else{
+                    find(cnt);
+                    test(cnt);
+                }
+   
+            },
+            'previous one':() => {
+                cnt -= 1;
+                if(cnt < 0){
+                    alert("已经是第一个了");
+                    console.log(cnt);
+                    cnt = 0;
+                }
+                else{
+                    find(cnt);
+                    test(cnt);
+                }
+            },
+            'back to top': () => { 
+                cnt = 0;
+                findtop();
+                console.log(cnt); 
+            },
+            'back to last page': () => { back(); },
+            'stop': () => { pause(); },
+            'go on':() => { cont(); },
+            'again': () => { again(); },
+            'hello':() => { alert("hello"); }
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening.
+        annyang.start();
+    }
+
+    var state = 0;
+    var cur_state = 0;
+    function gesture(){
+        $.ajax({
+            type: 'POST',
+            url: "gstate",
+            data: false,
+            async: false,       //同步执行
+            processData: false, // 告诉jquery要传输data对象
+            contentType: false, //告诉jquery不需要增加请求头对于contentType的设置
+            success: function (arg) {
+            // console.log(arg)
+            cur_state = parseInt(arg);
+            console.log(cur_state);
+        },error:function(){
+                console.log("后台处理错误");
+            }
+        })
+        if(cur_state!=state){
+            state = cur_state;
+            if(state == 3){
+                cnt -= 1;
+                if(cnt < 0){
+                    alert("已经是第一个了");
+                    console.log(cnt);
+                    cnt = 0;
+                }
+                else{
+                    find(cnt);
+                    test(cnt);
+                }
+            }
+            else if(state == 4){
+                cnt += 1;
+                if(cnt >= 4){
+                    alert("已经是最后一个了");
+                    console.log(cnt);
+                }
+                else{
+                    find(cnt);
+                    test(cnt);
+                }
+            }
+
+        }
+
+
+
+    }
+    //setInterval方法或字符串 ，毫秒，参数数组（方法的）)
+    setInterval("gesture()","100");
+
+    function getObjectURL(file) {
+        var url = null;
+        if(window.createObjectURL!=undefined) {
+            url = window.createObjectURL(file) ;
+        }else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        }else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+
+    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+    const dropZoneElement = inputElement.closest(".drop-zone");
+  
+    dropZoneElement.addEventListener("click", (e) => {
+      inputElement.click();
+    });
+  
+    inputElement.addEventListener("change", (e) => {
+      if (inputElement.files.length) {
+        updateThumbnail(dropZoneElement, inputElement.files[0]);
+      }
+    });
+  
+    dropZoneElement.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZoneElement.classList.add("drop-zone--over");
+    });
+  
+    ["dragleave", "dragend"].forEach((type) => {
+      dropZoneElement.addEventListener(type, (e) => {
+        dropZoneElement.classList.remove("drop-zone--over");
+      });
+    });
+  
+    dropZoneElement.addEventListener("drop", (e) => {
+      e.preventDefault();
+  
+      if (e.dataTransfer.files.length) {
+        inputElement.files = e.dataTransfer.files;
+        updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+      }
+  
+      dropZoneElement.classList.remove("drop-zone--over");
+    });
+  });
+  
+  /**
+   * Updates the thumbnail on a drop zone element.
+   *
+   * @param {HTMLElement} dropZoneElement
+   * @param {File} file
+   */
+  function updateThumbnail(dropZoneElement, file) {
+    let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+  
+    // First time - remove the prompt
+    if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+      dropZoneElement.querySelector(".drop-zone__prompt").remove();
+    }
+  
+    // First time - there is no thumbnail element, so lets create it
+    if (!thumbnailElement) {
+      thumbnailElement = document.createElement("div");
+      thumbnailElement.classList.add("drop-zone__thumb");
+      dropZoneElement.appendChild(thumbnailElement);
+    }
+  
+    thumbnailElement.dataset.label = file.name;
+  
+    // Show thumbnail for image files
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+  
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+      };
+    } else {
+      thumbnailElement.style.backgroundImage = null;
+    }
+  }
+
+
+
+
+</script>
+
+
+<style>
+    #b0{
+        background: #1899FF;
+        border: 1px solid #CCC;
+        padding: 4px 10px;
+        overflow: hidden;
+        text-indent: 0;
+        width:60px;
+        height:28px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: #FFFFFF;
+        font-size: 13px;
+    }
+    #b1{
+        background: #1899FF;
+        border: 1px solid #CCC;
+        padding: 4px 10px;
+        overflow: hidden;
+        text-indent: 0;
+        width:60px;
+        height:28px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: #FFFFFF;
+        font-size: 13px;
+    }
+    #b2{
+        background: #1899FF;
+        border: 1px solid #CCC;
+        padding: 4px 10px;
+        overflow: hidden;
+        text-indent: 0;
+        width:60px;
+        height:28px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: #FFFFFF;
+        font-size: 13px;
+    }
+    #b3{
+        background: #1899FF;
+        border: 1px solid #CCC;
+        padding: 4px 10px;
+        overflow: hidden;
+        text-indent: 0;
+        width:60px;
+        height:28px;
+        line-height: 20px;
+        border-radius: 5px;
+        color: #FFFFFF;
+        font-size: 13px;
+    }
+
+    .horn{
+        width: 950px;
+        height: 550px;
+        margin-top: 10px;
+        margin-bottom: 150px;
+        margin-left: 200px;
+        background:linear-gradient(#00faff, #00faff) left top,
+        linear-gradient(#00faff, #00faff) left top,
+        linear-gradient(#00faff, #00faff) right top,
+        linear-gradient(#00faff, #00faff) right top,
+        linear-gradient(#00faff, #00faff) left bottom,
+        linear-gradient(#00faff, #00faff) left bottom,
+        linear-gradient(#00faff, #00faff) right bottom,
+        linear-gradient(#00faff, #00faff) right bottom;
+        background-repeat: no-repeat;
+        background-size: 5px 20px, 20px 5px;
+    }
+    .titlebox{
+        margin-top: 0px;
+        margin-bottom: 100px; 
+        margin-left: 200px;
+        width: 950px;
+        height: 100px;
+        text-align: center;
+        background: #fff;
+        box-shadow:0px 0px 8px 8px rgb(229, 229, 229);
+        border-radius:0px 0px 16px 16px;
+    }
+    .con{
+        position: fixed;
+        top: 450px;
+        right: 0px;
+        height:250px;width:250px;
+        margin-right:5px;
+    }
+
+</style>
+</html>
+
+
